@@ -8,8 +8,8 @@ URLDownloadToFile, %downlpic%, %a_temp%/6Pqj5LoJrJk1.jpg
 }
 
 { ;AutoUpdate
-buildscr = 25 ;версия для сравнения, если меньше чем в verlen.ini - обновляем
-downlurl := "https://github.com/rqvm/Update/blob/master/updt.exe?raw=true"
+buildscr = 26 ;версия для сравнения, если меньше чем в verlen.ini - обновляем
+downlurl := "https://github.com/rqvm/Update/blob/master/updt32bit.exe?raw=true"
 downllen := "https://github.com/rqvm/Update/raw/master/verlef.ini"
 
 Utf8ToAnsi1(ByRef Utf8String, CodePage = 1251)
@@ -77,9 +77,9 @@ IfMsgBox OK
 put2 := % A_ScriptFullPath
 RegWrite, REG_SZ, HKEY_CURRENT_USER, Software\SAMP ,put2 , % put2
 SplashTextOn, , 60,Автообновление, Обновление. Ожидайте..`nОбновляем скрипт до версии %vupd%!
-URLDownloadToFile, %downlurl%, %a_temp%/updt.exe
+URLDownloadToFile, %downlurl%, %a_temp%/updt32.exe
 sleep, 1000
-run, %a_temp%/updt.exe
+run, %a_temp%/updt32bit.exe
 exitapp
 }
 }
@@ -89,7 +89,7 @@ SplashTextoff
 
 { ;Main GUI
 Gui, +hwndhGui1
-Gui, Show, h658 w800, Ban/Mute GUI Panel by RQVM(Requiem) Beta v1.25
+Gui, Show, h658 w800, Ban/Mute GUI Panel by RQVM(Requiem) Beta v1.26
 Gui, Add, Picture, x2 y-1 w800 h660 , %a_temp%/6Pqj5LoJrJk1.jpg
 Gui, Font, S10 CDefault, Verdana
 Gui, Add, Button, x-8 y99 w130 h30 gForum, Forum Reasons
@@ -268,6 +268,8 @@ Gui, 3:Add, Button, x-8 y79 w260 h40 gNedostatochno2, Уже наказан
 Gui, 3:Add, Button, x-8 y119 w260 h40 gNedostatochno3, Скриншот не работает
 Gui, 3:Add, Button, x-8 y159 w260 h40 gNedostatochno4, Недостаточно нарушений
 Gui, 3:Add, Button, x-8 y199 w260 h40 gNedostatochno5, Не тянет на Аморал
+Gui, 3:Add, Button, x-8 y239 w260 h40 gNedostatochno6, Недостаточно доказательств
+Gui, 3:Show, x70 y70 h277 w250,
 VarSetCapacity(WI, 60)
 Return
 
@@ -334,9 +336,20 @@ Gui, 1:Hide
 Sleep, 60
 SendInput, [info='Закрыто.']Недостаточно нарушений.[/info]
 return
+
+Nedostatochno6:
+Gui, 5:Hide
+Gui, 4:Hide 
+Gui, 2:Hide
+Gui, 3:Hide
+Gui, 1:Hide
+Sleep, 60
+SendInput, [info='Закрыто.']Недостаточно доказательств.[/info]
+return
+
 }
 
-{ ;GUI In-Game Bans
+{ ;GUI Out Game Bans
 Bans:
 Gui, 3:Hide 
 Gui, 2:Hide
@@ -347,7 +360,7 @@ Gui, 4:Add, Button, x-8 y-1 w120 h30 gBanOskProjekt1, Оск.Сервера
 Gui, 4:Add, Button, x112 y-1 w100 h30 gBanOskAdm1, /Админа
 Gui, 4:Add, Button, x-8 y29 w70 h30 gBanAdm1, Выдача
 Gui, 4:Add, Button, x62 y29 w150 h30 gBanuser1, Неуваж.Общение
-Gui, 4:Add, Button, x-8 y59 w90 h30 gBanIncor, Некор.Ник
+Gui, 4:Add, Button, x-8 y59 w90 h30 gBanIncor3, Некор.Ник
 Gui, 4:Add, Button, x82 y59 w50 h30 gIncorrSkin1, /Скин
 Gui, 4:Add, Button, x132 y59 w80 h30 gBanPref1, /Префикс
 Gui, 4:Add, Button, x142 y89 w70 h30 gBanCheat1, /Читов
@@ -381,8 +394,7 @@ Return
 
 { ;Кнопка помощи
 ButtonHelp:
-Msgbox, 
-
+Run, https://github.com/rqvm/Update/raw/master/FAQ.ini
 Return
 }
 
@@ -441,7 +453,7 @@ Gui, 4:Hide
 Gui, 2:Hide
 Gui, 1:Hide
 WinActivate, VimeWorld
-SendRaw, 2880 Тим на BW.
+SendRaw, 2880 Тим на БВ.
 return
 
 BANSW:
@@ -449,7 +461,7 @@ Gui, 4:Hide
 Gui, 2:Hide
 Gui, 1:Hide
 WinActivate, VimeWorld
-SendRaw, 2880 Тим на SW.
+SendRaw, 2880 Тим на СВ.
 return
 
 Banuser:
@@ -803,7 +815,7 @@ Gui, 1:Hide
 WinActivate, VimeWorld  
 Send {sc14} 
 sleep, 70
-SendRaw /ban 2880 Тим на BW.
+SendRaw /ban 2880 Тим на БВ.
 Send {LEFT 16}{Space}
 return
 
@@ -814,7 +826,7 @@ Gui, 1:Hide
 WinActivate, VimeWorld  
 Send {sc14}
 sleep 60
-SendRaw /ban 2880 Тим на SW.
+SendRaw /ban 2880 Тим на СВ.
 SendInput {LEFT 16}{Space}
 return
 
@@ -1347,6 +1359,8 @@ return
 }
 
 { ; Бинды
+
+
 Home::Reload ; перезагружает скрипт 
 End::ExitApp ;закрывает скрипт
 Insert::Suspend ;ставит скрипт на паузу
